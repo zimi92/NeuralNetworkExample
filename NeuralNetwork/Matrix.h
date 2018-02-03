@@ -49,6 +49,7 @@ public:
 		}
 		return resaultMatrix;
 	}
+	void nonlin(bool derivative);
 	~Matrix();
 
 	std::vector<std::vector<float>> _matrix;

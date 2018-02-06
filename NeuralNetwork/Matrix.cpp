@@ -7,7 +7,6 @@ Matrix::Matrix(int x, int y)
 		for (auto &iter : _matrix.back()) 
 		{
 			iter = static_cast<long double>((rand() % 100) / 100.F);
-			//std::cout << iter << std::endl;
 		}
 	}
 }
@@ -57,7 +56,7 @@ std::vector<int> Matrix::getSize(bool printMe)
 	return std::vector<int>{static_cast<int>(_matrix.size()),static_cast<int>( _matrix[0].size())};
 }
 
-Matrix Matrix::nonlin(bool deriv = false)
+Matrix Matrix::sigmaOnMatrix(bool deriv = false)
 {
 	auto nonLinMatrix = _matrix;
 	if (deriv) 

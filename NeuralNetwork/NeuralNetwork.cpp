@@ -10,3 +10,4 @@ NeuralNetwork::NeuralNetwork()
 NeuralNetwork::~NeuralNetwork()
 {
 }
+

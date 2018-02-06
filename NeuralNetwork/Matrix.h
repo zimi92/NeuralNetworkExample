@@ -67,7 +67,7 @@ public:
 		return resaultMatrix;
 	}
 
-	Matrix nonlin(bool derivative);
+	Matrix sigmaOnMatrix(bool derivative);
 	static Matrix multiply(Matrix a, Matrix b);
 	~Matrix();
 

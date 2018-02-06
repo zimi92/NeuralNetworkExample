@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <cassert>
+
 class Matrix
 {
 public:
 	Matrix(int x, int y);
-	Matrix(std::vector<std::vector<float>> matrix);
-	static Matrix multiply(Matrix a, Matrix b);
+	Matrix(std::vector<std::vector<long double>> matrix);
 	void printMatrix();
-	void transposeMe();
-	std::vector<int>  getSize();
+	Matrix transposeMe();
+	std::vector<int>  getSize(bool printMe = false);
 	
 	void operator*(int scalar) 
 	{
@@ -21,25 +22,41 @@ public:
 			}
 		}
 	}
-	friend Matrix& operator+(Matrix a, Matrix b)
+
+	friend Matrix operator+(Matrix a, Matrix b)
 	{
 		Matrix resaultMatrix(a.getSize()[0], a.getSize()[1]);
 		for (int i = 0; i < a.getSize()[0]; i++) 
 		{
-			for (int j = 0; j < a.getSize()[0]; j++)
+			for (int j = 0; j < a.getSize()[1]; j++)
 			{
 				resaultMatrix._matrix[i][j] = a._matrix[i][j] + b._matrix[i][j];
 			}
 		}
 		return resaultMatrix;
 	}
-	friend Matrix& operator-(Matrix a, Matrix b)
+
+	friend Matrix operator*(Matrix a, Matrix b)
+	{
+		assert(a.getSize()[1] == b.getSize()[0]);
+		Matrix result(a._matrix.size(), b._matrix[0].size());
+		for (int i = 0; i < a._matrix.size(); i++)
+		{
+			for (int j = 0; j < b._matrix[0].size(); j++)
+			{
+				long double partialResulat = 0;
+				for (int r = 0; r < a._matrix[0].size(); r++) {
+					partialResulat += a._matrix[i][r] * b._matrix[r][j];
+				}
+				result._matrix[i][j] = partialResulat;
+			}
+		}
+		return result;
+	}
+
+	friend Matrix operator-(Matrix a, Matrix b)
 	{
 		Matrix resaultMatrix(a.getSize()[0], a.getSize()[1]);
-		std::cout << a.getSize()[0] << " " << a.getSize()[1] << std::endl;
-		std::cout << b.getSize()[0] << " " << b.getSize()[1] << std::endl;
-		std::cout << resaultMatrix.getSize()[0] << " " << resaultMatrix.getSize()[1] << std::endl;
-
 		for (int i = 0; i < a.getSize()[0]; i++)
 		{
 			for (int j = 0; j < a.getSize()[1]; j++)
@@ -49,9 +66,11 @@ public:
 		}
 		return resaultMatrix;
 	}
-	void nonlin(bool derivative);
+
+	Matrix nonlin(bool derivative);
+	static Matrix multiply(Matrix a, Matrix b);
 	~Matrix();
 
-	std::vector<std::vector<float>> _matrix;
+	std::vector<std::vector<long double>> _matrix;
 };
 
